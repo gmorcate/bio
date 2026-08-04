@@ -84,27 +84,10 @@ text-decoration: underline;
 
 
 
-
-
+ <div class="center-wrapper">
+        <div id="script-output"></div>
+    </div>
 	
-	
-	
-<style>
-        body { 
-            margin: 0; 
-            padding: 0; 
-            overflow: hidden; 
-            background-color: #222; 
-        }
-        canvas { 
-            display: block; 
-            width: 100vw;
-            height: 100vh;
-        }
-    </style>
-</head>
-<body>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
     // 1. Setup Scene, Camera, and Renderer
@@ -202,7 +185,9 @@ text-decoration: underline;
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 </script>
-
+ <script>
+        document.getElementById("script-output").innerHTML = "<h1>Centered Content</h1>";
+    </script>
 
 
 
