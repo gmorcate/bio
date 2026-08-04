@@ -84,19 +84,10 @@ text-decoration: underline;
 
 
 
- <div class="center-wrapper">
-        <div id="script-output"></div>
-    </div>
-
-
-
-			
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
     // 1. Setup Scene, Camera, and Renderer
     const scene = new THREE.Scene();
-    // MOVED CAMERA FURTHER BACK (18, 12, 24 instead of 12, 8, 15)
     const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.set(18, 12, 24);
     camera.lookAt(0, 0, 0);
@@ -153,13 +144,13 @@ text-decoration: underline;
     
     titleHeli.add(heliBody, heliCockpit, sideWindow, heliTail, tailFin, rotorMast, mainRotorGroup, tailRotor, skid1, skid2, strut1, strut2, strut3, strut4);
     
-    // NEW PIVOT LOGIC TO CENTER THE ROTATION
     const pivot = new THREE.Group();
-    // Push the helicopter forward by 2 units so its physical center sits on the pivot origin
     titleHeli.position.z = 2; 
     pivot.add(titleHeli);
 
-    // Adjust starting rotation
+    // SCALING APPLIED HERE: Shrinking the model by 60% (leaving it at 40% size)
+    pivot.scale.set(0.4, 0.4, 0.4);
+
     pivot.rotation.y = -Math.PI / 4;
     scene.add(pivot);
 
@@ -174,7 +165,7 @@ text-decoration: underline;
         mainRotorGroup.rotation.y += 20 * dt;
         tailRotor.rotation.x += 20 * dt;
 
-        // Spin the pivot group instead of the helicopter itself
+        // Spin the pivot group
         pivot.rotation.y += 1.0 * dt; 
 
         renderer.render(scene, camera);
@@ -189,12 +180,6 @@ text-decoration: underline;
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 </script>
-
-
-	
-
-    </script>
-
 
 
 
