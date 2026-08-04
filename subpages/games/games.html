@@ -1,7 +1,7 @@
 <html>
 <head>
 <link rel="icon" href="..\..\favicon.ico">
-<title>Gus's Website</title>
+<title>Gothic Sun</title>
 
 <h1>Gothic Sun</h1>
 
@@ -80,7 +80,105 @@ text-decoration: underline;
 <h2>Games</h2>
 
 <h3><a href="https://gmorcate.github.io/antarctic_anomaly_3d/">Antarctic Anomaly 3D</a></h3>
-  
+
+
+	
+	
+	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+    // 1. Setup Scene, Camera, and Renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(12, 8, 15);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    document.body.appendChild(renderer.domElement);
+
+    // 2. Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+    scene.add(ambientLight);
+    const dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    dirLight.position.set(10, 20, 10);
+    scene.add(dirLight);
+
+    // 3. Extract the Helicopter Build Code
+    const titleHeli = new THREE.Group();
+    const heliMat = new THREE.MeshLambertMaterial({color: 0xff6600}); 
+    const windowMat = new THREE.MeshBasicMaterial({color: 0x111111});
+    const skidMat = new THREE.MeshLambertMaterial({color: 0x888888});
+    
+    const heliBody = new THREE.Mesh(new THREE.BoxGeometry(4, 3, 6), heliMat);
+    const heliCockpit = new THREE.Mesh(new THREE.BoxGeometry(3.8, 1.5, 2), windowMat);
+    heliCockpit.position.set(0, 0.5, 2.1);
+    const sideWindow = new THREE.Mesh(new THREE.BoxGeometry(4.2, 1, 2), windowMat);
+    sideWindow.position.set(0, 0.5, 0);
+    const heliTail = new THREE.Mesh(new THREE.BoxGeometry(0.8, 1, 5), heliMat);
+    heliTail.position.set(0, 0, -5);
+    const tailFin = new THREE.Mesh(new THREE.BoxGeometry(0.2, 2, 1), heliMat);
+    tailFin.position.set(0, 0.5, -7);
+    const rotorMast = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 1), skidMat);
+    rotorMast.position.set(0, 1.8, 0);
+    
+    const mainRotorGroup = new THREE.Group();
+    const heliRotor1 = new THREE.Mesh(new THREE.BoxGeometry(12, 0.1, 0.5), new THREE.MeshBasicMaterial({color: 0x333333}));
+    const heliRotor2 = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.1, 12), new THREE.MeshBasicMaterial({color: 0x333333}));
+    mainRotorGroup.add(heliRotor1, heliRotor2);
+    mainRotorGroup.position.set(0, 2.3, 0);
+    
+    const tailRotor = new THREE.Mesh(new THREE.BoxGeometry(0.1, 2, 0.5), new THREE.MeshBasicMaterial({color: 0x333333}));
+    tailRotor.position.set(0.5, 0.5, -7);
+    
+    const skid1 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 6), skidMat);
+    skid1.rotation.x = Math.PI/2; skid1.position.set(2, -1.8, 0);
+    const skid2 = skid1.clone(); skid2.position.set(-2, -1.8, 0);
+    
+    const strut1 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 1.5), skidMat);
+    strut1.position.set(2, -1, 1.5); strut1.rotation.z = -Math.PI/8;
+    const strut2 = strut1.clone(); strut2.position.set(2, -1, -1.5);
+    const strut3 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 1.5), skidMat);
+    strut3.position.set(-2, -1, 1.5); strut3.rotation.z = Math.PI/8;
+    const strut4 = strut3.clone(); strut4.position.set(-2, -1, -1.5);
+    
+    titleHeli.add(heliBody, heliCockpit, sideWindow, heliTail, tailFin, rotorMast, mainRotorGroup, tailRotor, skid1, skid2, strut1, strut2, strut3, strut4);
+    
+    // Adjust starting rotation slightly so it looks good immediately
+    titleHeli.rotation.y = -Math.PI / 4;
+    scene.add(titleHeli);
+
+    // 4. Animation Loop
+    const clock = new THREE.Clock();
+    function animate() {
+        requestAnimationFrame(animate);
+        let dt = clock.getDelta();
+        if (dt > 0.1) dt = 0.1;
+
+        // Spin the rotors fast
+        mainRotorGroup.rotation.y += 20 * dt;
+        tailRotor.rotation.x += 20 * dt;
+
+        // Spin the whole helicopter slowly for the showcase GIF
+        titleHeli.rotation.y += 1.0 * dt; 
+
+        renderer.render(scene, camera);
+    }
+    
+    animate();
+
+    // Handle Window Resizing
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+
+
+
+	
     
 </div>
 </body>
